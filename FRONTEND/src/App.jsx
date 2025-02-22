@@ -1,11 +1,8 @@
 import React from 'react'
-import FacialEmotions from './FacialEmotions/FacialEmotions';
 
-function App() {
+const App = () => {
   return (
-    <div>
-      <FacialEmotions />
-    </div>
+    <div className='h-screen w-full bg-red-100 text-3xl' >App</div>
   )
 }
 
