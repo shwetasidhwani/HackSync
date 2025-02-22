@@ -1,8 +1,72 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
+
+
+//Shweta imports
+
+
+
+
+
+
+
+
+
+// Dhruv Imports
+
+
+
+
+
+
+
+
+
+
+// Hringkesh imports 
+
+
+
+
+
+
+
+
+
+
+// Ash imports
+import CognitiveLoadPredictor from "./CognitiveEngagement/CognitiveLoadPredictor";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const App = () => {
   return (
-    <div className='h-screen w-full bg-red-100 text-3xl' >App</div>
+   <BrowserRouter>
+    <Routes>
+    <Route path="/Cognition" element={<CognitiveLoadPredictor />} />
+
+
+    </Routes>
+   </BrowserRouter>
   )
 }
 

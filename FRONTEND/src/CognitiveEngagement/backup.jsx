@@ -4,11 +4,11 @@ import './CognitiveLoadPredictor.css';
 
 const CognitiveLoadPredictor = () => {
   const initialFormState = {
-    duration: '',
-    engagement_level: '',
-    event_type: '',
-    location: '',
-    time_of_day: ''
+    duration: '30',
+    engagement_level: '3',
+    event_type: 'meeting',
+    location: 'office',
+    time_of_day: 'morning'
   };
 
   const [formData, setFormData] = useState(initialFormState);
@@ -20,27 +20,33 @@ const CognitiveLoadPredictor = () => {
   const [showComparison, setShowComparison] = useState(false);
   const [showSecondComparison, setShowSecondComparison] = useState(false);
 
-  const handleInputChange = (e, scenarioNumber = 0) => {
+  const handleInputChange = (e, isComparison = false) => {
     const { name, value } = e.target;
-    
-    switch(scenarioNumber) {
-      case 1:
-        setComparisonData(prev => ({
-          ...prev,
-          [name]: value
-        }));
-        break;
-      case 2:
-        setSecondComparisonData(prev => ({
-          ...prev,
-          [name]: value
-        }));
-        break;
-      default:
-        setFormData(prev => ({
-          ...prev,
-          [name]: value
-        }));
+    if (isComparison) {
+      setComparisonData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+  };
+
+  const handleComparisonInputChange = (e, comparisonNumber) => {
+    const { name, value } = e.target;
+    if (comparisonNumber === 1) {
+      setComparisonData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    } else {
+      setSecondComparisonData(prev => ({
+        ...prev,
+        [name]: value
+      }));
     }
   };
 
@@ -56,7 +62,7 @@ const CognitiveLoadPredictor = () => {
     try {
       const response = await axios.post('http://127.0.0.1:5000/cogPredict', requestData);
       setPrediction(response.data);
-      console.log(response.data);
+      console.log(response.data)
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred while making the prediction');
@@ -64,18 +70,26 @@ const CognitiveLoadPredictor = () => {
     setLoading(false);
   };
 
+  const toggleComparison = () => {
+    if (!showComparison) {
+      setComparisonData({...initialFormState});
+    } else {
+      setComparisonData(null);
+    }
+    setShowComparison(!showComparison);
+  };
+
   const toggleSecondComparison = () => {
     if (!showSecondComparison) {
       setSecondComparisonData({...initialFormState});
     } else {
-      setComparisonResults(null);
       setSecondComparisonData(null);
     }
     setShowSecondComparison(!showSecondComparison);
   };
 
   const handleComparisonAnalysis = async () => {
-    if (!formData || !secondComparisonData) {
+    if (!comparisonData || !secondComparisonData) {
       alert('Please enter both comparison scenarios');
       return;
     }
@@ -83,7 +97,7 @@ const CognitiveLoadPredictor = () => {
     setLoading(true);
     try {
       const response = await axios.post('http://127.0.0.1:5000/compareScenarios', {
-        scenario1: formData,
+        scenario1: comparisonData,
         scenario2: secondComparisonData
       });
       setComparisonResults(response.data);
@@ -158,6 +172,7 @@ const CognitiveLoadPredictor = () => {
     const duration = parseInt(data.duration);
     const engagement = parseInt(data.engagement_level);
 
+    // Always provide at least these basic recommendations
     recommendations.push(
       "Take regular breaks to maintain cognitive freshness",
       "Stay hydrated throughout the activity",
@@ -191,7 +206,7 @@ const CognitiveLoadPredictor = () => {
           type="number"
           name="duration"
           value={data.duration}
-          onChange={(e) => handleInputChange(e, isComparison ? 2 : 0)}
+          onChange={(e) => handleInputChange(e, isComparison)}
           required
           min="1"
           max="480"
@@ -205,7 +220,7 @@ const CognitiveLoadPredictor = () => {
           type="number"
           name="engagement_level"
           value={data.engagement_level}
-          onChange={(e) => handleInputChange(e, isComparison ? 2 : 0)}
+          onChange={(e) => handleInputChange(e, isComparison)}
           required
           min="1"
           max="10"
@@ -218,12 +233,11 @@ const CognitiveLoadPredictor = () => {
           id={`event_type${isComparison ? '-comp' : ''}`}
           name="event_type"
           value={data.event_type}
-          onChange={(e) => handleInputChange(e, isComparison ? 2 : 0)}
+          onChange={(e) => handleInputChange(e, isComparison)}
         >
-          <option value="">Select Event Type</option>
-          <option value="meeting">Meeting</option>
+          <option value="meeting">meeting</option>
           <option value="exercise">Exercise</option>
-          <option value="break">Break</option>
+          <option value="break">break</option>
           <option value="social_interaction">Social Interaction</option>
           <option value="commute">Commute</option>
           <option value="casual_lunch">Casual Lunch</option>
@@ -236,11 +250,10 @@ const CognitiveLoadPredictor = () => {
           id={`location${isComparison ? '-comp' : ''}`}
           name="location"
           value={data.location}
-          onChange={(e) => handleInputChange(e, isComparison ? 2 : 0)}
+          onChange={(e) => handleInputChange(e, isComparison)}
         >
-          <option value="">Select Location</option>
-          <option value="office">Office</option>
-          <option value="home">Home</option>
+          <option value="office">office</option>
+          <option value="home">home</option>
           <option value="gym">Gym</option>
           <option value="outdoor">Outdoor</option>
         </select>
@@ -252,10 +265,9 @@ const CognitiveLoadPredictor = () => {
           id={`time_of_day${isComparison ? '-comp' : ''}`}
           name="time_of_day"
           value={data.time_of_day}
-          onChange={(e) => handleInputChange(e, isComparison ? 2 : 0)}
+          onChange={(e) => handleInputChange(e, isComparison)}
         >
-          <option value="">Select Time of Day</option>
-          <option value="morning">Morning</option>
+          <option value="morning">morning</option>
           <option value="afternoon">Afternoon</option>
           <option value="evening">Evening</option>
         </select>
@@ -267,6 +279,7 @@ const CognitiveLoadPredictor = () => {
     <div className="prediction-results">
       <h3>{isComparison ? 'Comparison Analysis' : 'Current Analysis'}</h3>
       
+      {/* Risk Score Card */}
       <div className="result-card risk-score-card">
         <div className="probability-indicator" 
              style={{
@@ -282,6 +295,7 @@ const CognitiveLoadPredictor = () => {
         </div>
       </div>
 
+      {/* Visualization Section */}
       {!isComparison && predictionData.plot && (
         <div className="visualization-card">
           <h4>Analysis Visualization</h4>
@@ -294,6 +308,7 @@ const CognitiveLoadPredictor = () => {
         </div>
       )}
 
+      {/* Risk Factors Card */}
       <div className="result-card risk-factors-card">
         <h4>Risk Factors</h4>
         <div className="factors-grid">
@@ -312,6 +327,7 @@ const CognitiveLoadPredictor = () => {
         </div>
       </div>
 
+      {/* Recommendations Card */}
       <div className="result-card recommendations-card">
         <h4>Recommendations</h4>
         <div className="recommendations-grid">
@@ -395,6 +411,7 @@ const CognitiveLoadPredictor = () => {
       <div className="predictor-card">
         <h2>Cognitive Load Predictor</h2>
         
+        {/* Primary Analysis Section */}
         <div className="primary-analysis">
           <form onSubmit={handleSubmit}>
             {renderInputForm(formData)}
@@ -410,6 +427,7 @@ const CognitiveLoadPredictor = () => {
           )}
         </div>
 
+        {/* Comparison Section - Now at the bottom */}
         <div className="comparison-section">
           <h3>Want to compare with another scenario?</h3>
           <button 
@@ -423,7 +441,7 @@ const CognitiveLoadPredictor = () => {
           {showSecondComparison && (
             <>
               <div className="comparison-forms">
-                {renderInputForm(secondComparisonData, true)}
+                {renderInputForm(secondComparisonData || initialFormState, true)}
               </div>
               <button 
                 type="button" 
