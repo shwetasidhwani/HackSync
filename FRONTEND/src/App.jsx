@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-rou
 
 
 //Shweta imports
-
+import SocialNetwork from "./SocialNetwork/SocialNetwork";
 
 
 
@@ -62,6 +62,7 @@ import MLCalendar from "./Calender/MLCalender";
 
 
 
+
 const App = () => {
   return (
 
@@ -72,7 +73,7 @@ const App = () => {
     <Routes>
 
       {/* Shweta Routes  */}
-
+      <Route path="/SocialNetwork" element={<SocialNetwork />} />
 
 
 

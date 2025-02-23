@@ -15,10 +15,23 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@tailwindcss/vite": "^4.0.8",
     "axios": "^1.7.9",
+<<<<<<< HEAD
+    "chart.js": "^4.4.8",
     "gsap": "^3.12.7",
+    "moment": "^2.30.1",
+    "plotly.js": "^3.0.1",
+=======
+    "gsap": "^3.12.7",
+<<<<<<< HEAD
+=======
+    "moment": "^2.30.1",
+>>>>>>> 390c377d6bd46e3becc96c5d793a490d76238438
+>>>>>>> 3c090f32df730dd5f7f5ee4b10e1a3c5295e49df
     "react": "^19.0.0",
     "react-calendar": "^5.1.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",
+    "react-plotly.js": "^2.6.0",
     "react-router-dom": "^7.2.0",
     "tailwindcss": "^4.0.8"
   },
