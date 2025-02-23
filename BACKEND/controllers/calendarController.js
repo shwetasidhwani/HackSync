@@ -13,10 +13,12 @@ exports.getEvents = async (req, res) => {
 // Add a new event
 exports.addEvent = async (req, res) => {
   try {
+    console.log(req.body);
     const { title, start, end } = req.body;
     const newEvent = new CalendarEvent({ title, start, end });
     await newEvent.save();
-    res.json(newEvent);
+    res.status(200).json(newEvent);
+    console.log("New event saved!");    
   } catch (error) {
     res.status(500).json({ error: "Error creating event" });
   }

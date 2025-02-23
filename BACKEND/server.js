@@ -17,7 +17,7 @@ const PORT = 3000;
 //--------------------ROUTES IMPORTS -----------------------------
 //ash imports
 // const authRoutes = require('./routes/authRoutes');
-const calendarRoutes = require('./routes/calendarRoutes');
+const calendarRoutes = require('./routes/calendarRoutes'); 
 
 
 
@@ -44,7 +44,7 @@ app.use(body_parser.json());
 app.use(body_parser.urlencoded({ extended: true }));
 app.use(cookie_parser());
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET  || 'cfb41d494e73ffde86c92e7555dc6821a3bc146280e87dd2e108b026f1a3066ef2eaf5a25a52c7009dc6887c20f0429c1cad23a2f7a2ba8ad9ca97049d6907ad',
     resave : false,
     saveUninitialized : true,
     cookie : {secure : false} //true while deployingggggg
