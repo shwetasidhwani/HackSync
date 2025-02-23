@@ -16,7 +16,10 @@
     "@tailwindcss/vite": "^4.0.8",
     "axios": "^1.7.9",
     "gsap": "^3.12.7",
+<<<<<<< HEAD
+=======
     "moment": "^2.30.1",
+>>>>>>> 390c377d6bd46e3becc96c5d793a490d76238438
     "react": "^19.0.0",
     "react-calendar": "^5.1.0",
     "react-dom": "^19.0.0",
