@@ -1,75 +1,65 @@
 import numpy as np
 import pandas as pd
-import joblib
 import tensorflow as tf
+import joblib
 
-# Load pre-trained model
-model = tf.keras.models.load_model("social_scheduler_v3.h5")
-
-# Load preprocessing objects
-scaler = joblib.load("scaler.pkl")  # StandardScaler now properly loaded
+# Load saved model and preprocessing objects
+model = tf.keras.models.load_model("social_scheduler_v3.h5", compile=False)
 label_encoders = joblib.load("label_encoders.pkl")
 friend_encoder = joblib.load("friend_encoder.pkl")
+scaler = joblib.load("scaler.pkl")
 features = joblib.load("features.pkl")
 
-# Required input features
-numerical_cols = ["Duration_Minutes", "Mood_Before", "Mood_After", "Previous_Interaction_Gap",
-                  "Interaction_Frequency_Score", "Social_Preference_Score", "Urgency_Score"]
-categorical_cols = ["Category", "Interaction_Type", "Day_of_Week", "Preferred_Time_Slot"]
-
-# Function to take dynamic user input
-def get_user_input():
-    print("\nEnter your details for prediction:")
-    user_data = {}
-
-    # Take numerical inputs
-    for col in numerical_cols:
-        user_data[col] = float(input(f"Enter {col}: "))
-
-    # Take categorical inputs
-    for col in categorical_cols:
-        options = list(label_encoders[col].classes_)  # Get available categories
-        print(f"\nAvailable {col} options: {options}")
-        choice = input(f"Choose {col}: ")
-        while choice not in options:
-            print("Invalid choice! Try again.")
-            choice = input(f"Choose {col}: ")
-        user_data[col] = label_encoders[col].transform([choice])[0]  # Encode user input
-
-    return user_data
-
-# Convert user input to model-ready format
-def preprocess_input(user_data, sequence_length=10):
-    # Convert to DataFrame
-    df = pd.DataFrame([user_data])
-
-    # Normalize numerical data using StandardScaler
+# Define function to preprocess user input
+def preprocess_input(raw_input, sequence_length=10):
+    df = pd.DataFrame([raw_input])
+    
+    # Encode categorical variables
+    for col in ["Category", "Interaction_Type", "Day_of_Week", "Preferred_Time_Slot"]:
+        df[col] = label_encoders[col].transform(df[col])
+    
+    # Normalize numerical values
+    numerical_cols = ["Duration_Minutes", "Mood_Before", "Mood_After", "Previous_Interaction_Gap", "Interaction_Frequency_Score", "Social_Preference_Score", "Urgency_Score"]
     df[numerical_cols] = scaler.transform(df[numerical_cols])
+    
+    # Construct sequence (for now, repeating the input to match sequence length)
+    sequence = np.tile(df[features].values, (sequence_length, 1))
+    sequence = sequence.reshape(1, sequence_length, -1)
+    
+    return sequence
 
-    # Convert to numpy array
-    input_array = df[features].values
+# Sample raw input for testing
+raw_test_input = {
+    "Category": "Work",
+    "Interaction_Type": "Call",
+    "Day_of_Week": "Monday",
+    "Preferred_Time_Slot": "Evening",
+    "Duration_Minutes": 30,
+    "Mood_Before": 7,
+    "Mood_After": 8,
+    "Previous_Interaction_Gap": 2,
+    "Interaction_Frequency_Score": 5,
+    "Social_Preference_Score": 6,
+    "Urgency_Score": 3
+}
 
-    # Repeat input to match required LSTM sequence length
-    input_sequence = np.tile(input_array, (sequence_length, 1)).reshape(1, sequence_length, -1)
+# Preprocess the input
+processed_input = preprocess_input(raw_test_input)
 
-    return input_sequence
+# Make predictions
+predicted_output = model.predict(processed_input)
 
-# Get user input
-user_data = get_user_input()
+# Ensure attention mechanism is taken into account
+if 'attention_output' in model.output_names:
+    attention_output = predicted_output['attention_output']
+    print(f"Attention Output: {attention_output}")
 
-# Preprocess input
-input_seq = preprocess_input(user_data)
-
-# Make prediction
-predictions = model.predict(input_seq)
-predicted_friend_idx = np.argmax(predictions["friend_output"])
-predicted_time_idx = np.argmax(predictions["time_output"])
+predicted_friend = np.argmax(predicted_output['friend_output'])
+predicted_time = np.argmax(predicted_output['time_output'])
 
 # Decode predictions
-predicted_friend = friend_encoder.inverse_transform([predicted_friend_idx])[0]
-predicted_time = label_encoders["Best_Time_to_Meet"].inverse_transform([predicted_time_idx])[0]
+friend_decoded = friend_encoder.inverse_transform([predicted_friend])[0]
+time_decoded = label_encoders["Best_Time_to_Meet"].inverse_transform([predicted_time])[0]
 
-# Display prediction results
-print("\n--- Prediction Results ---")
-print(f"🧑‍🤝‍🧑 Suggested Friend: {predicted_friend}")
-print(f"⏰ Best Time to Interact: {predicted_time}")
+print(f"Predicted Friend to Interact With: {friend_decoded}")
+print(f"Predicted Best Time to Interact: {time_decoded}")
