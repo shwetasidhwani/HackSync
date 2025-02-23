@@ -1,0 +1,14 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+    text-align: center;
+    background-color: #f9b572;
+  }
+  h2 {
+    color: #d9534f;
+  }
+  p {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
