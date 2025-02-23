@@ -1,8 +1,13 @@
 import React from 'react'
+import SocialNetwork from './SocialNetwork/SocialNetwork'
+import FacialEmotions from './FacialEmotions/FacialEmotions'
+import FaceAnalyzer from './FaceAnalyzer/FaceAnalyzer'
 
 const App = () => {
   return (
-    <div className='h-screen w-full bg-red-100 text-3xl' >App</div>
+    <div>
+    <FaceAnalyzer/>
+    </div>
   )
 }
 
