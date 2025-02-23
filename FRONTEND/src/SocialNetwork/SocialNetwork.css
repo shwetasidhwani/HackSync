@@ -173,3 +173,124 @@
   .result-card {
     animation: fadeIn 0.5s ease-out;
   }
+  
+  .plot-container {
+    width: 100%;
+    height: 500px;
+    margin: 2rem 0;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .cluster-stats {
+    margin-top: 2rem;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .stat-item {
+    background: #f7fafc;
+    padding: 0.75rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  }
+  
+  .stat-item:hover {
+    background: #e2e8f0;
+    transform: translateY(-2px);
+  }
+  
+  .stat-item.selected {
+    background: #4299e1;
+    color: white;
+  }
+  
+  .stat-label {
+    font-weight: 600;
+    color: #4a5568;
+  }
+  
+  .stat-value {
+    margin-left: 0.5rem;
+    color: #2d3748;
+  }
+  
+  .show-users-btn {
+    margin: 1rem 0;
+    padding: 0.75rem 1.5rem;
+    background: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .show-users-btn:hover {
+    background: #3182ce;
+  }
+  
+  .users-list-container {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f7fafc;
+    border-radius: 8px;
+  }
+  
+  .users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .user-item {
+    padding: 0.75rem;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+  
+  .chart-box {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .chart-box h3 {
+    margin-bottom: 1rem;
+    color: #2d3748;
+    text-align: center;
+  }
+  
+  .chart-wrapper {
+    height: 400px;
+    width: 100%;
+    position: relative;
+  }
+  
+  /* Ensure charts are responsive on mobile */
+  @media (max-width: 768px) {
+    .charts-container {
+      grid-template-columns: 1fr;
+    }
+    
+    .chart-wrapper {
+      height: 300px;
+    }
+  }

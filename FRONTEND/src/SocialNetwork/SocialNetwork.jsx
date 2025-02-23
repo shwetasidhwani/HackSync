@@ -1,6 +1,7 @@
 // src/UserForm.jsx
 import React, { useState } from "react";
 import './SocialNetwork.css';
+import Plot from 'react-plotly.js';
 
 const SocialNetwork = () => {
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ const SocialNetwork = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
+    console.log("Submitting data:", formData); // Debug log
     try {
       const response = await fetch("http://127.0.0.1:5000/getUserGroup", {
         method: "POST",
@@ -39,11 +40,17 @@ const SocialNetwork = () => {
         },
         body: JSON.stringify(formData),
       });
-      console.log(response.data)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
+      console.log("Received data:", data); // Debug log
       setResult(data);
     } catch (error) {
       console.error("Error:", error);
+      setResult(null);
     }
   };
 
@@ -209,24 +216,38 @@ const SocialNetwork = () => {
         </form>
       </div>
 
-      {result && (
+      {result && result.cluster_stats && (
         <div className="result-card">
           <h2>User Group: <span className="highlight">Group {result.group}</span></h2>
-          <div className="result-section">
-            <h3>Similar Users</h3>
-            <ul className="result-list">
-              {result.names.map((name, index) => (
-                <li key={index}>{name}</li>
+          
+          {/* Plot visualization */}
+          {result.plot && (
+            <div className="plot-container">
+              <Plot
+                data={result.plot.data}
+                layout={result.plot.layout}
+                config={{ responsive: true }}
+              />
+            </div>
+          )}
+
+          {/* Cluster Statistics */}
+          <div className="cluster-stats">
+            <h3>Cluster Characteristics</h3>
+            <div className="stats-grid">
+              {Object.entries(result.cluster_stats || {}).map(([key, value]) => (
+                <div key={key} className="stat-item">
+                  <span className="stat-label">{key}:</span>
+                  <span className="stat-value">
+                    {typeof value === 'number' ? value.toFixed(2) : value}
+                  </span>
+                </div>
               ))}
-            </ul>
-          </div>
-          <div className="result-section">
-            <h3>Similarities</h3>
-            <ul className="result-list">
-              {result.similarities.map((similarity, index) => (
-                <li key={index}>{similarity}</li>
-              ))}
-            </ul>
+            </div>
+            {result.total_users_in_cluster && (
+              <p>You are grouped with {result.total_users_in_cluster} other users 
+                 ({(result.cluster_size_percentage || 0).toFixed(1)}% of total users)</p>
+            )}
           </div>
         </div>
       )}
