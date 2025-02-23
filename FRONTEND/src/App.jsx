@@ -14,8 +14,9 @@ import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-rou
 
 // Dhruv Imports
 import Landing from "./Landing/Landing";
-import Scheduler from "./Scheduler/Scheduler";
+// import Scheduler from "./Scheduler/Scheduler";
 import Navbar from "./components/Navbar";
+import Login from "./Auth/Login";
 
 
 
@@ -65,10 +66,11 @@ const App = () => {
   return (
 
    <BrowserRouter>
-    <Routes>
-    <div className="flex flex-col min-h-screen max-w-full overflow-hidden">
+       <div className="flex flex-col min-h-screen max-w-full overflow-hidden">
         <Navbar />
         <main className="flex-grow w-full "> 
+    <Routes>
+
       {/* Shweta Routes  */}
 
 
@@ -85,7 +87,7 @@ const App = () => {
       {/* Dhruv Routes  */}
             <Route path="/" element={<Landing />} />
             {/* <Route path="/scheduler" element={<Scheduler />} /> */}
-
+            <Route path="/login" element={<Login />} />
 
 
 
@@ -139,10 +141,11 @@ const App = () => {
 
 
 
+  
+    </Routes>
     </main>
         {/* <Footer /> */}
       </div>
-    </Routes>
    </BrowserRouter>
   )
 }
