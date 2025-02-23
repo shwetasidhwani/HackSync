@@ -1,25 +1,141 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Landing from './Landing/Landing';
-import Navbar from './componrnts/Navbar';
-import Scheduler from './Scheduler/Scheduler';
-// import About from './About';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
+
+
+//Shweta imports
+
+
+
+
+
+
+
+
+
+// Dhruv Imports
+
+
+
+
+
+
+
+
+
+
+// Hringkesh imports 
+
+
+
+
+
+
+
+
+
+
+// Ash imports
+import CognitiveLoadPredictor from "./CognitiveEngagement/CognitiveLoadPredictor";
+import MLCalendar from "./Calender/MLCalender";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const App = () => {
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen max-w-full overflow-hidden">
-        <Navbar />
-        <main className="flex-grow w-full "> {/* Removed `container mx-auto` */}
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/scheduler" element={<Scheduler />} />
-          </Routes>
-        </main>
-        {/* <Footer /> */}
-      </div>
-    </Router>
-  );
-};
+   <BrowserRouter>
+    <Routes>
+
+      {/* Shweta Routes  */}
+
+
+
+
+
+
+
+
+
+
+
+
+      {/* Dhruv Routes  */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      {/* Hringkesh Routes  */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {/* Ashmit Routes */}
+    <Route path="/Cognition" element={<CognitiveLoadPredictor />} />
+    <Route path="/Calendar" element={<MLCalendar />} />
+
+
+
+
+
+
+
+
+
+    </Routes>
+   </BrowserRouter>
+  )
+}
 
 export default App;
