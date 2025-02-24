@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import Section1 from "../components/section1";
 
 
 
@@ -14,7 +15,7 @@ const Landing = () => {
     const tl = gsap.timeline();
 
     // Initial black screen (opacity 1)
-    gsap.set(containerRef.current, { backgroundColor: "#ffff" });
+    gsap.set(containerRef.current, { backgroundColor: "#b7b7b7" });
 
     // Animate the gray window emerging from center
     tl.fromTo(
@@ -41,11 +42,12 @@ const Landing = () => {
   }, []);
 
   return (
+    <>
     <div ref={containerRef} className="relative w-screen h-screen flex justify-center items-center overflow-hidden">
       {/* Gray Window */}
       <div
         ref={grayWindowRef}
-        className="absolute w-[90%] h-[80%] bg-[#dddddd] rounded-3xl shadow-lg overflow-hidden flex border-4 border-black"
+        className="absolute w-[90%] h-[80%] bg-gray-800 rounded-3xl shadow-lg  overflow-hidden flex border-4 border-black"
         style={{
           clipPath: "polygon(0% 15%, 100% 0%, 100% 85%, 0% 100%)", // Wavy effect
           borderRadius: "40px",
@@ -62,7 +64,7 @@ const Landing = () => {
         {/* Transparent div with staggered text */}
         <div
           ref={textRef}
-          className="absolute top-[50%] left-[8%] transform -translate-y-1/2 text-black text-4xl md:text-6xl font-bold font-[]"
+          className="absolute top-[50%] left-[8%] transform -translate-y-1/2 text-white text-4xl md:text-6xl font-bold font-[]"
         >
           <p className="mb-4">Track  </p>
           <p className="mb-4">Your Social Life</p>
@@ -70,6 +72,8 @@ const Landing = () => {
         </div>
       </div>
     </div>
+    <Section1/>
+    </>
   );
 };
 

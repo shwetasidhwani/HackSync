@@ -391,7 +391,8 @@ const CognitiveLoadPredictor = () => {
   };
 
   return (
-    <div className="predictor-container">
+    <div className="bg-[#b7b7b7]">
+      <div className="predictor-container">
       <div className="predictor-card">
         <h2>Cognitive Load Predictor</h2>
         
@@ -439,6 +440,7 @@ const CognitiveLoadPredictor = () => {
           {comparisonResults && renderComparisonResults()}
         </div>
       </div>
+    </div>
     </div>
   );
 };

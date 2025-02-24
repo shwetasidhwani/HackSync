@@ -54,7 +54,8 @@ const SocialNetwork = () => {
     }
   };
 
-  return (
+  return (<>
+  <div className="bg-[#dcdcdc]">
     <div className="social-network-container">
       <div className="form-card">
         <h1>Social Network Analysis</h1>
@@ -252,6 +253,8 @@ const SocialNetwork = () => {
         </div>
       )}
     </div>
+    </div>
+    </>
   );
 };
 

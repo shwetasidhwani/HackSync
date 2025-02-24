@@ -192,7 +192,7 @@
 }
 
 .predict-button {
-  background: #007bff;
+  background: #003369;
   color: white;
 }
 
@@ -201,12 +201,12 @@
 }
 
 .comparison-toggle {
-  background: #6c757d;
+  background:  #003369;
   color: white;
 }
 
 .comparison-toggle:hover {
-  background: #5a6268;
+  background: #0056b3;
 }
 
 /* Loading State */

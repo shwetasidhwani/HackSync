@@ -111,7 +111,7 @@ const MLCalendar = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row justify-center items-center p-6">
+    <div className="flex flex-col h-screen md:flex-row justify-center items-center p-6 bg-[#dfdfdf]">
       {/* Left Section: Calendar */}
       <div className="bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-bold text-center mb-4">Agentic ML Calendar</h2>
@@ -183,7 +183,7 @@ const MLCalendar = () => {
       </div>
 
       {/* Bottom Section: Event List */}
-      <div className="mt-6 bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+      <div className="mt-6 bg-[#ffff] rounded-lg shadow-lg p-6 w-full max-w-lg ml-2">
         <h3 className="text-xl font-semibold mb-4">Upcoming Events</h3>
         <div className="space-y-2">
           {events.map((event) => (
